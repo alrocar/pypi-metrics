@@ -5,7 +5,7 @@ on:
     - cron:  '0 4 * * *'
 
 jobs:
-  ingest_metadata:
+  ingest_downloads:
     runs-on: ubuntu-latest
 
     steps:
