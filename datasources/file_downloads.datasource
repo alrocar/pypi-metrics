@@ -1,0 +1,36 @@
+VERSION 0
+
+# NOW=`date +"%Y%m%d"`
+# tb --gcp-project-id stddevco --gcs-bucket alrocar datasource append file_downloads__v0 --connector bigquery --sql "SELECT      timestamp,     country_code,     file.project,     file.version,     details.python as python,     details.installer.name as installer_name,     details.installer.version as installer_version,     details.distro.name as distro_name,     details.system.name as system_name,     details.system.release as system_release,     details.cpu  as cpu FROM \`the-psf.pypi.downloads${NOW}\`"
+
+# SELECT 
+#     timestamp,
+#     country_code,
+#     file.project,
+#     file.version,
+#     details.python,
+#     details.installer.name,
+#     details.installer.version,
+#     details.distro.name,
+#     details.system.name,
+#     details.system.release,
+#     details.cpu
+# FROM `the-psf.pypi.downloadsYYYYMMDD` 
+
+
+SCHEMA >
+    `timestamp` DateTime,
+    `country_code` Nullable(String),
+    `project` LowCardinality(String),
+    `version` LowCardinality(String),
+    `python` Nullable(String),
+    `installer_name` Nullable(String),
+    `installer_version` Nullable(String),
+    `distro_name` Nullable(String),
+    `system_name` Nullable(String),
+    `system_release` Nullable(String),
+    `cpu` Nullable(String)
+
+ENGINE "MergeTree"
+ENGINE_PARTITION_KEY "toYYYYMM(timestamp)"
+ENGINE_SORTING_KEY "timestamp, project"

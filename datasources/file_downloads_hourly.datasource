@@ -1,0 +1,15 @@
+VERSION 0
+
+SCHEMA >
+    `date` DateTime,
+    `project` LowCardinality(String),
+    `version` LowCardinality(String),
+    `country_code` Nullable(String),
+    `python` Nullable(String),
+    `system_name` Nullable(String),
+    `downloads` AggregateFunction(count)
+
+ENGINE "AggregatingMergeTree"
+ENGINE_PARTITION_KEY "toYYYYMM(date)"
+ENGINE_SORTING_KEY "date, project"
+ENGINE_TTL date + INTERVAL 7 DAY

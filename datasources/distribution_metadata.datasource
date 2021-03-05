@@ -1,0 +1,71 @@
+VERSION 0
+
+# tb --gcp-project-id stddevco --gcs-bucket alrocar datasource append distribution_metadata__v0 --connector bigquery --sql "select    array_to_string(project_urls, ',') project_urls,    array_to_string(classifiers, ',') classifiers,    array_to_string(platform, ',') platform,    array_to_string(requires, ',') requires,    array_to_string(provides, ',') provides,    array_to_string(obsoletes, ',') obsoletes,    array_to_string(requires_dist, ',') requires_dist,    array_to_string(provides_dist, ',') provides_dist,    array_to_string(obsoletes_dist, ',') obsoletes_dist,    array_to_string(requires_external, ',') requires_external,    metadata_version,    name,    version,    author,    author_email,    maintainer,    maintainer_email,    license,    keywords,    home_page,    download_url,    requires_python,    uploaded_via,    upload_time,    filename,    size,    path,    python_version,    packagetype     FROM \`the-psf.pypi.distribution_metadata\`"
+
+# select
+#     array_to_string(project_urls, ',') project_urls,
+#     array_to_string(classifiers, ',') classifiers,
+#     array_to_string(platform, ',') platform,
+#     array_to_string(requires, ',') requires,
+#     array_to_string(provides, ',') provides,
+#     array_to_string(obsoletes, ',') obsoletes,
+#     array_to_string(requires_dist, ',') requires_dist,
+#     array_to_string(provides_dist, ',') provides_dist,
+#     array_to_string(obsoletes_dist, ',') obsoletes_dist,
+#     array_to_string(requires_external, ',') requires_external,
+#     metadata_version,
+#     name,
+#     version,
+#     author,
+#     author_email,
+#     maintainer,
+#     maintainer_email,
+#     license,
+#     keywords,
+#     home_page,
+#     download_url,
+#     requires_python,
+#     uploaded_via,
+#     upload_time,
+#     filename,
+#     size,
+#     path,
+#     python_version,
+#     packagetype
+# FROM
+#     `the-psf.pypi.distribution_metadata`
+
+SCHEMA >
+    `project_urls` Nullable(String),
+    `classifiers` Nullable(String),
+    `platform` Nullable(String),
+    `requires` Nullable(String),
+    `provides` Nullable(String),
+    `obsoletes` Nullable(String),
+    `requires_dist` Nullable(String),
+    `provides_dist` Nullable(String),
+    `obsoletes_dist` Nullable(String),
+    `requires_external` Nullable(String),
+    `metadata_version` Nullable(String),
+    `name` String,
+    `version` String,
+    `author` Nullable(String),
+    `author_email` Nullable(String),
+    `maintainer` Nullable(String),
+    `maintainer_email` Nullable(String),
+    `license` Nullable(String),
+    `keywords` Nullable(String),
+    `home_page` Nullable(String),
+    `download_url` Nullable(String),
+    `requires_python` Nullable(String),
+    `uploaded_via` Nullable(String),
+    `upload_time` Nullable(DateTime),
+    `filename` Nullable(String),
+    `size` Nullable(Integer),
+    `path` Nullable(String),
+    `python_version` Nullable(String),
+    `packagetype` Nullable(String)
+
+ENGINE "MergeTree"
+ENGINE_PARTITION_KEY "tuple()"
+ENGINE_SORTING_KEY "name"
