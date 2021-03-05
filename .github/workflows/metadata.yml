@@ -23,7 +23,7 @@ jobs:
       run: tb --version
 
     - name: ingest-data
-      run: tb --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource replace $DATASOURCE --connector bigquery --sql "SELECT * FROM \`stddevco.tinybird.agents\`"
+      run: tb --token $TOKEN --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource replace $DATASOURCE --connector bigquery --sql "SELECT * FROM \`stddevco.tinybird.agents\`"
       env:
         TOKEN: ${{ secrets.TB_TOKEN }}
         PROJECT_ID: stddevco
