@@ -32,4 +32,4 @@ jobs:
         TOKEN: ${{ secrets.TB_TOKEN }}
         PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         BUCKET: ${{ secrets.GCP_BUCKET_TEMP }}
-        DATASOURCE: distribution_metadata
+        DATASOURCE: distribution_metadata__v0
