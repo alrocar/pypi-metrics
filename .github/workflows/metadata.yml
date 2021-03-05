@@ -16,7 +16,7 @@ jobs:
         architecture: 'x64'
     - uses: google-github-actions/setup-gcloud@v0.2.0
       with:
-        project_id: stddevco
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         export_default_credentials: true
     
@@ -27,9 +27,9 @@ jobs:
       run: tb --version
 
     - name: ingest-data
-      run: tb --token $TOKEN --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource replace $DATASOURCE --connector bigquery --sql "SELECT * FROM \`stddevco.tinybird.agents\`"
+      run: tb --token $TOKEN --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource replace $DATASOURCE --connector bigquery --sql "select    array_to_string(project_urls, ',') project_urls,    array_to_string(classifiers, ',') classifiers,    array_to_string(platform, ',') platform,    array_to_string(requires, ',') requires,    array_to_string(provides, ',') provides,    array_to_string(obsoletes, ',') obsoletes,    array_to_string(requires_dist, ',') requires_dist,    array_to_string(provides_dist, ',') provides_dist,    array_to_string(obsoletes_dist, ',') obsoletes_dist,    array_to_string(requires_external, ',') requires_external,    metadata_version,    name,    version,    author,    author_email,    maintainer,    maintainer_email,    license,    keywords,    home_page,    download_url,    requires_python,    uploaded_via,    upload_time,    filename,    size,    path,    python_version,    packagetype     FROM \`the-psf.pypi.distribution_metadata\`"
       env:
         TOKEN: ${{ secrets.TB_TOKEN }}
-        PROJECT_ID: stddevco
-        BUCKET: alrocar
-        DATASOURCE: agents
+        PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        BUCKET: ${{ secrets.GCP_BUCKET_TEMP }}
+        DATASOURCE: distribution_metadata
