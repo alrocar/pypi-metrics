@@ -1,0 +1,37 @@
+name: downloads
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 4 * * *'
+
+jobs:
+  ingest_metadata:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'
+        architecture: 'x64'
+    - uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        export_default_credentials: true
+    
+    - name: pip packages
+      run: pip install tinybird-cli
+    
+    - name: version
+      run: tb --version
+
+      
+    - name: ingest-previous-day
+      run: NOW=`date +"%Y-%m-%d"` DDATE=`date --date="${NOW} -${DAY} day" +%Y-%m-%d` tb --token $TOKEN --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource replace $DATASOURCE --connector bigquery --sql "SELECT      timestamp,     country_code,     file.project,     file.version,     details.python as python,     details.installer.name as installer_name,     details.installer.version as installer_version,     details.distro.name as distro_name,     details.system.name as system_name,     details.system.release as system_release,     details.cpu  as cpu FROM \`the-psf.pypi.downloads${DDATE}\`" --sql-condition="toDate(timestamp)=${DDATE}"
+      env:
+        TOKEN: ${{ secrets.TB_TOKEN }}
+        PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        BUCKET: ${{ secrets.GCP_BUCKET_TEMP }}
+        DATASOURCE: file_downloads__v0
+        DAY: 1
