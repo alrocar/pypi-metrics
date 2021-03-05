@@ -14,6 +14,12 @@ jobs:
       with:
         python-version: '3.7'
         architecture: 'x64'
+    - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: stddevco
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          export_default_credentials: true
     - name: pip packages
       run: pip install tinybird-cli
     
@@ -27,4 +33,3 @@ jobs:
         PROJECT_ID: stddevco
         BUCKET: alrocar
         DATASOURCE: agents
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
