@@ -31,6 +31,4 @@ SCHEMA >
     `system_release` Nullable(String),
     `cpu` Nullable(String)
 
-ENGINE "MergeTree"
-ENGINE_PARTITION_KEY "toYYYYMM(timestamp)"
-ENGINE_SORTING_KEY "timestamp, project"
+ENGINE "Null"
