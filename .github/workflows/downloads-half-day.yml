@@ -28,7 +28,7 @@ jobs:
 
       
     - name: ingest-half-current-day
-      run: export NOW=`date +"%Y%m%d"` && export NOWTB=`date +"%Y-%m-%d"` && tb --token $TOKEN --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource append $DATASOURCE --connector bigquery --sql "SELECT      timestamp,     country_code,     file.project,     file.version,     details.python as python,     details.installer.name as installer_name,     details.installer.version as installer_version,     details.distro.name as distro_name,     details.system.name as system_name,     details.system.release as system_release,     details.cpu  as cpu FROM \`the-psf.pypi.downloads$DDATE\` WHERE timestamp <= '$NOWTB 12:00:00'"
+      run: export NOW=`date +"%Y%m%d"` && export NOWTB=`date +"%Y-%m-%d"` && tb --token $TOKEN --gcp-project-id $PROJECT_ID --gcs-bucket $BUCKET datasource append $DATASOURCE --connector bigquery --sql "SELECT      timestamp,     country_code,     file.project,     file.version,     details.python as python,     details.installer.name as installer_name,     details.installer.version as installer_version,     details.distro.name as distro_name,     details.system.name as system_name,     details.system.release as system_release,     details.cpu  as cpu FROM \`the-psf.pypi.downloads$NOW\` WHERE timestamp <= '$NOWTB 12:00:00'"
       env:
         TOKEN: ${{ secrets.TB_TOKEN }}
         PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
