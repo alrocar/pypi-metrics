@@ -1,21 +1,6 @@
-VERSION 0
+VERSION 1
 
-# NOW=`date +"%Y%m%d"`
-# tb --gcp-project-id stddevco --gcs-bucket alrocar datasource append file_downloads__v0 --connector bigquery --sql "SELECT      timestamp,     country_code,     file.project,     file.version,     details.python as python,     details.installer.name as installer_name,     details.installer.version as installer_version,     details.distro.name as distro_name,     details.system.name as system_name,     details.system.release as system_release,     details.cpu  as cpu FROM \`the-psf.pypi.downloads${NOW}\`"
-
-# SELECT 
-#     timestamp,
-#     country_code,
-#     file.project,
-#     file.version,
-#     details.python,
-#     details.installer.name,
-#     details.installer.version,
-#     details.distro.name,
-#     details.system.name,
-#     details.system.release,
-#     details.cpu
-# FROM `the-psf.pypi.downloadsYYYYMMDD` 
+SELECT timestamp_trunc(timestamp, hour) as timestamp, country_code, file.project as project, file.version as version, details.python as python, details.system.name as system_name, count(*) as downloads FROM \`the-psf.pypi.downloads$DDATE\` WHERE timestamp <= '$DDATETB 12:00:00' group by timestamp, country_code, project, version, python, system_name
 
 
 SCHEMA >
@@ -24,11 +9,7 @@ SCHEMA >
     `project` LowCardinality(String),
     `version` LowCardinality(String),
     `python` Nullable(String),
-    `installer_name` Nullable(String),
-    `installer_version` Nullable(String),
-    `distro_name` Nullable(String),
     `system_name` Nullable(String),
-    `system_release` Nullable(String),
-    `cpu` Nullable(String)
+    `downloads` Int32
 
 ENGINE "Null"

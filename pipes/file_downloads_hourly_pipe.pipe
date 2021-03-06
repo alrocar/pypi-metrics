@@ -1,4 +1,4 @@
-VERSION 0
+VERSION 1
 
 NODE file_downloads_hourly_mv
 SQL >
@@ -9,7 +9,7 @@ SQL >
         country_code,
         python,
         system_name,
-        countState() downloads
+        sum(downloads) downloads
     FROM file_downloads
     GROUP BY 
         date,

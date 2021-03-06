@@ -1,13 +1,13 @@
-VERSION 0
+VERSION 1
 
 SCHEMA >
-    `date` DateTime,
+    `date` Date,
     `project` LowCardinality(String),
     `version` LowCardinality(String),
     `country_code` Nullable(String),
     `python` Nullable(String),
     `system_name` Nullable(String),
-    `downloads` AggregateFunction(count)
+    `downloads` SimpleAggregateFunction(sum, Int64)
 
 ENGINE "AggregatingMergeTree"
 ENGINE_PARTITION_KEY "toYYYYMM(date)"
