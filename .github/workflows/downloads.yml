@@ -21,7 +21,7 @@ jobs:
         export_default_credentials: true
     
     - name: pip packages
-      run: pip install tinybird-cli
+      run: pip install tinybird-cli && pip install tinybird-cli[bigquery] && pip install tinybird-cli[snowflake]
     
     - name: version
       run: tb --version
