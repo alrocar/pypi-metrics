@@ -1,8 +1,8 @@
 name: downloads-half-current-day
 on:
   workflow_dispatch:
-  schedule:
-    - cron:  '0 14 * * *'
+  # schedule:
+    # - cron:  '0 14 * * *'
 
 jobs:
   ingest_downloads:
